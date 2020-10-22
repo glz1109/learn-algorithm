@@ -59,5 +59,48 @@ def climbStairs1(n):    # 只使用三个变量完成递推
 
     print(final_step)
 
+'''
+    爬楼梯, 3阶, 每次可上1阶、2阶、3阶
+'''
+def climbStairsThree(n):
+    f = [0 for i in range(n+1)]
+    f[1] = 1
+    f[2] = 2
+    f[3] = 4
+
+    if n < 4:
+        return f[n]
+
+    for i in range(4,n+1):
+        f[i] = (f[i-1] + f[i-2] + f[i-3]) % 1000000007
+
+    print(f[n])
+
+def climbStairsThreeCompress(n):
+    if n == 1:
+        return 1
+    if n == 2:
+        return 2
+    if n == 3:
+        return 4
+
+    res  = 0
+    pre3 = 1
+    pre2 = 2
+    pre1 = 4
+
+    # pre1 - 3 当前台阶的前三级台阶的走法, pre1是往前一级, pre3是往前三级台阶
+    for i in range(4, n+1):
+        res = (pre1 + pre2 + pre3) % 1000000007
+        pre1, pre2, pre3 = res, pre1, pre2
+
+    print(res)
+
 if __name__ == '__main__':
-    climbStairs1(6)
+    # climbStairs1(6)
+
+    # climbStairsThree(5)
+
+    climbStairsThreeCompress(5)
+
+    climbStairsThreeCompress(10)

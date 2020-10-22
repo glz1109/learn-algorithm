@@ -1,4 +1,3 @@
-from ast import NodeTransformer
 from typing import List
 from collections import deque
 
@@ -87,10 +86,10 @@ def _dfs(root: TreeNode, visit, res):
     res.append(root.val)
     visit.add(root)
 
-    if not root.left in visit:
-        _dfs(root.left, visit, res)
-    if not root.right in visit:
-        _dfs(root.right, visit, res)
+    # if not root.left in visit:
+    _dfs(root.left, visit, res)
+    # if not root.right in visit:
+    _dfs(root.right, visit, res)
 
 # 深度优先搜索 非递归
 def DFS_stack(root: TreeNode):
@@ -139,6 +138,26 @@ def LevelOrder(root: TreeNode):
         res.append(curlevel)
     print(res)
 
+# 输出二叉树所有根到叶子节点的路径
+def binaryTreePaths(root: TreeNode) -> List[str]:
+    def _dfs(root: TreeNode, paths, path):
+        if root is None:
+            return []
+
+        path += str(root.val)
+
+        if root.left is None and root.right is None:
+            paths.append(path)                 
+        if root.left:
+            _dfs(root.left, paths, path+'->')
+        if root.right:
+            _dfs(root.right, paths, path+'->')
+    
+    paths = []
+    path = ''
+    _dfs(root, paths, path)
+    return paths
+
 if __name__ == '__main__':
     '''
                         13
@@ -185,8 +204,12 @@ if __name__ == '__main__':
     root = create_binary_tree(arr)
     # preOrder(root)
 
-    BFS(root)
+    # BFS(root)
 
-    DFS(root)
+    # DFS(root)
 
-    DFS_stack(root)
+    # DFS_stack(root)
+
+    paths = binaryTreePaths(root)
+    for i in paths:
+        print(i)
